@@ -1,0 +1,54 @@
+.calculator {
+  display: flex;
+  flex-direction: column;
+  height: 620px;
+  width: 404px;
+  border: 2px solid red;
+  margin: 0 auto;
+}
+
+.screen {
+  border: 2px solid blue;
+  height: 120px;
+}
+
+.keyboard {
+  display: flex;
+  flex-flow: row wrap;
+  border: 2px solid green;
+  height: 500px;
+}
+
+.key {
+  border: 2px solid black;
+  height: 100px;
+  width: 100px;
+  opacity: 0.75;
+}
+
+.key:hover {
+  cursor: pointer;
+  opacity: 1;
+
+}
+
+.clear {
+  background-color: blue;
+}
+
+.operator {
+  background-color: orange;
+}
+
+.number {
+  background-color: darkgray;
+}
+
+.result {
+  background-color: orange;
+}
+
+.zero {
+  width: 200px;
+}
+
