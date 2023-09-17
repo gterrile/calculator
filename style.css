@@ -2,28 +2,32 @@
   display: flex;
   flex-direction: column;
   height: 620px;
-  width: 404px;
-  border: 2px solid red;
+  width: 400px;
   margin: 0 auto;
 }
 
 .screen {
-  border: 2px solid blue;
+  background-color: rgb(50, 50, 50);
+  display: flex;
   height: 120px;
 }
 
 .keyboard {
+  justify-content: center;
+  gap: 1px;
+  margin-top: 1px;
+  align-items: center;
   display: flex;
   flex-flow: row wrap;
-  border: 2px solid green;
   height: 500px;
 }
 
 .key {
-  border: 2px solid black;
-  height: 100px;
-  width: 100px;
-  opacity: 0.75;
+  height: 99px;
+  width: 99px;
+  opacity: 0.9;
+  margin: 0;
+  border: none;
 }
 
 .key:hover {
@@ -41,7 +45,7 @@
 }
 
 .number {
-  background-color: darkgray;
+  background-color: rgb(192, 192, 192);
 }
 
 .result {
@@ -49,6 +53,6 @@
 }
 
 .zero {
-  width: 200px;
+  width: 199px;
 }
 
