@@ -6,6 +6,8 @@ const keypress = document.getElementById('keypress');
 const allKeys = document.querySelectorAll('.key');
 const operation = document.getElementById('operation');
 const total = document.getElementById('totalOperation');
+const keysound = document.getElementById('keysound');
+const soundToggle = document.getElementById('toggle')
 
 let currentOperation = '0';
 operation.textContent = currentOperation;
@@ -18,6 +20,51 @@ let operatorIsUsed = false;
 //////////////////////////////////////////////
 //////////// Operation Functions /////////////
 //////////////////////////////////////////////
+
+function adjustDisplayResult(result) {
+  
+  let currentLength = result.length;
+  if (currentLength > 0 && currentLength <= 10) {
+    total.setAttribute('style', 'font-size: 52px');
+  }
+  if (currentLength > 10 && currentLength <= 15) {
+    total.setAttribute('style', 'font-size: 42px');
+  }
+  if (currentLength > 15 && currentLength <= 20) {
+    total.setAttribute('style', 'font-size: 32px');
+  }
+  if (currentLength > 20) {
+    total.setAttribute('style', 'font-size: 22px');
+  }
+}
+
+
+// Adjust Operation display to lengh
+function adjustDisplayOperation(operationLength) {
+  
+  let currentLength = operationLength.length;
+  if (currentLength > 0 && currentLength <= 10) {
+    operation.setAttribute('style', 'font-size: 32px');
+  }
+  if (currentLength > 10 && currentLength <= 15) {
+    operation.setAttribute('style', 'font-size: 28px');
+  }
+  if (currentLength > 15 && currentLength <= 20) {
+    operation.setAttribute('style', 'font-size: 24px');
+  }
+  if (currentLength > 20 && currentLength <= 25) {
+    operation.setAttribute('style', 'font-size: 20px');
+  }
+  if (currentLength > 25 && currentLength <= 30) {
+    operation.setAttribute('style', 'font-size: 16px');
+  }
+  if (currentLength > 30 && currentLength <= 35) {
+    operation.setAttribute('style', 'font-size: 12px');
+  }
+  if (currentLength > 35) {
+    operation.setAttribute('style', 'font-size: 10px');
+  }
+}
 
 // Remove unneccesary zeros
 function eliminateRightZeros (number) {
@@ -99,30 +146,35 @@ function generateOperationArguments(str) {
   if (operator == '+') {
     let result = addOperation(parseFloat(left), parseFloat(right));
     let displayresult = eliminateRightZeros(result);
+    adjustDisplayResult(displayresult);
     total.textContent = displayresult;
   }
 
   if (operator == '-') {
     let result = substracOperation(parseFloat(left), parseFloat(right));
     let displayresult = eliminateRightZeros(result);
+    adjustDisplayResult(displayresult);
     total.textContent = displayresult;
   }
 
   if (operator == '*') {
     let result = multiplyOperation(parseFloat(left), parseFloat(right));
     let displayresult = eliminateRightZeros(result);
+    adjustDisplayResult(displayresult);
     total.textContent = displayresult;
   }
 
   if (operator == '/') {
     let result = divideOperation(parseFloat(left), parseFloat(right));
     let displayresult = eliminateRightZeros(result);
+    adjustDisplayResult(displayresult);
     total.textContent = displayresult;
   }
 
   if (operator == '%') {
     let result = porcentageOperation(parseFloat(left), parseFloat(right));
     let displayresult = eliminateRightZeros(result);
+    adjustDisplayResult(displayresult);
     total.textContent = displayresult;
   }
 };
@@ -134,6 +186,13 @@ function generateOperationArguments(str) {
 allKeys.forEach(key => {
   key.addEventListener('click', function() {
     
+    if (soundToggle.checked) {
+      keysound.currentTime = 0;
+      keysound.play();
+    }
+
+    adjustDisplayOperation(currentOperation);
+
     // Clears the current operation
     if (key.value == 'clear') {
       total.textContent = '0';
@@ -198,11 +257,10 @@ allKeys.forEach(key => {
 });
 
 document.addEventListener('keydown', (e) => {
-  console.log(e);  
+  console.log(e);
   document.getElementById(`${e.key}`).click();
+
+
     
 });
-
-
-
 
