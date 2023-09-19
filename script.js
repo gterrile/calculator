@@ -1,3 +1,7 @@
+//////////////////////////////////////////////
+//////////// Const Declarations //////////////
+//////////////////////////////////////////////
+
 const keypress = document.getElementById('keypress');
 const allKeys = document.querySelectorAll('.key');
 const operation = document.getElementById('operation');
@@ -7,43 +11,53 @@ let currentOperation = '0';
 operation.textContent = currentOperation;
 total.textContent = '0';
 
-
 let operationIsEmpty = true;
 let periodIsUsed = false;
 let operatorIsUsed = false;
 
+//////////////////////////////////////////////
+//////////// Operation Functions /////////////
+//////////////////////////////////////////////
+
+// Remove unneccesary zeros
 function eliminateRightZeros (number) {
   let numberString = number.toString();
   let isPeriodPresent = false;
+  
   // Look for a period in the string
-  for (i = 0; i = numberString.length - 1; i++) {
+  for (i = 0; i < numberString.length - 1; i++) {
     if (numberString[i] == '.') {
       isPeriodPresent = true;
       break;
     }
   }
+
   if (isPeriodPresent) {
     while (numberString[numberString.length - 1] == '0') {
       numberString = numberString.slice(0, -1);
     }
   }
-  console.log('result:', numberString);
+
+  if (numberString[numberString.length - 1] == '.') {
+    numberString = numberString.slice(0, -1);
+  }
+
+  return numberString;
 };
-eliminateRightZeros(900000);
 
 function addOperation(a, b) {
   let total = a + b;
-  return total.toFixed(8);
+  return total.toFixed(6);
 };
 
 function substracOperation(a, b) {
   let total = a - b;
-  return total.toFixed(10);
+  return total.toFixed(6);
 }
 
 function multiplyOperation(a, b) {
   let total = a * b;
-  return total.toFixed(10);
+  return total.toFixed(6);
 }
 
 function divideOperation(a, b) {
@@ -51,7 +65,7 @@ function divideOperation(a, b) {
     return '∞';
   }
   let total = a / b;
-  return total.toFixed(10);
+  return total.toFixed(6);
 }
 
 function porcentageOperation(a, b) {
@@ -59,6 +73,7 @@ function porcentageOperation(a, b) {
   return total.toFixed(6);
 }
 
+// Generate arguments and call operations functions
 function generateOperationArguments(str) {
   let operator = '';
   let left = '';
@@ -80,48 +95,42 @@ function generateOperationArguments(str) {
       right += currentOperation[i];  
     }
   }
-  // Display operation Arguments and Operator
-  console.log('currentOperation', currentOperation);
-  console.log('left:', left);
-  console.log('operator:', operator);
-  console.log('right:', right);
-
-  // Call proper operation function
-
+  
   if (operator == '+') {
     let result = addOperation(parseFloat(left), parseFloat(right));
-    total.textContent = result;
-    console.log('result:', result)
+    let displayresult = eliminateRightZeros(result);
+    total.textContent = displayresult;
   }
 
   if (operator == '-') {
     let result = substracOperation(parseFloat(left), parseFloat(right));
-    total.textContent = result;
-    console.log('result:', result)
+    let displayresult = eliminateRightZeros(result);
+    total.textContent = displayresult;
   }
 
   if (operator == '*') {
     let result = multiplyOperation(parseFloat(left), parseFloat(right));
-    total.textContent = result;
-    console.log('result:', result)
+    let displayresult = eliminateRightZeros(result);
+    total.textContent = displayresult;
   }
 
   if (operator == '/') {
     let result = divideOperation(parseFloat(left), parseFloat(right));
-    total.textContent = result;
-    console.log('result:', result)
+    let displayresult = eliminateRightZeros(result);
+    total.textContent = displayresult;
   }
 
   if (operator == '%') {
     let result = porcentageOperation(parseFloat(left), parseFloat(right));
-    total.textContent = result;
-    console.log('result:', result)
+    let displayresult = eliminateRightZeros(result);
+    total.textContent = displayresult;
   }
-
 };
 
+//////////////////////////////////////////////
+////////////// Event Listeners ///////////////
+//////////////////////////////////////////////
 
-// Get values and display them on console
 allKeys.forEach(key => {
   key.addEventListener('click', function() {
     
@@ -132,6 +141,23 @@ allKeys.forEach(key => {
       currentOperation = '0';
       periodIsUsed = false;
       operatorIsUsed = false;
+    }
+
+    // fix backspace and operators
+
+    if (key.value == 'backspace' && currentOperation != '0') {
+      let temp = currentOperation.slice(0, -1);
+      
+      if (currentOperation[currentOperation.length - 1] == '%' ||
+      currentOperation[currentOperation.length - 1] == '/' ||
+      currentOperation[currentOperation.length - 1] == '*' ||
+      currentOperation[currentOperation.length - 1] == '-' ||
+      currentOperation[currentOperation.length - 1] == '+') {
+        operatorIsUsed = false;
+      }
+
+      currentOperation = temp;
+      operation.textContent = currentOperation;
     }
 
     // Validates not allowing two operators signs together
@@ -171,9 +197,11 @@ allKeys.forEach(key => {
   })
 });
 
-// document.addEventListener('keydown', (e) => {
-
-// });
+document.addEventListener('keydown', (e) => {
+  console.log(e);  
+  document.getElementById(`${e.key}`).click();
+    
+});
 
 
 
