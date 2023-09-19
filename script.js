@@ -196,7 +196,9 @@ allKeys.forEach(key => {
     // Clears the current operation
     if (key.value == 'clear') {
       total.textContent = '0';
+      total.setAttribute('style', 'font-size: 52px')
       operation.textContent = '0';
+      operation.setAttribute('style', 'font-size: 32px')
       currentOperation = '0';
       periodIsUsed = false;
       operatorIsUsed = false;
